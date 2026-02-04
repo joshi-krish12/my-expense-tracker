@@ -2,7 +2,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { v4 as uuidv4 } from 'uuid'; 
 import './index.css';
 
-const API_URL = 'http://localhost:3001';
+const API_URL = import.meta.env.PROD ? '/api' : 'http://localhost:3001';
 
 function App() {
   const [expenses, setExpenses] = useState([]);

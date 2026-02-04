@@ -109,6 +109,11 @@ app.post('/expenses', (req, res) => {
     });
 });
 
-app.listen(PORT, () => {
+// Export the Express API
+module.exports = app;
+
+if (require.main === module) {
+  app.listen(PORT, () => {
     console.log(`Server running on http://localhost:${PORT}`);
-});
+  });
+}
