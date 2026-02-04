@@ -9,8 +9,10 @@ const PORT = 3001;
 app.use(cors());
 app.use(express.json());
 
+const router = express.Router();
+
 // GET /expenses
-app.get('/expenses', (req, res) => {
+router.get('/expenses', (req, res) => {
     const { category, sort } = req.query;
     let query = 'SELECT * FROM expenses';
     const params = [];
@@ -39,7 +41,7 @@ app.get('/expenses', (req, res) => {
 });
 
 // POST /expenses
-app.post('/expenses', (req, res) => {
+router.post('/expenses', (req, res) => {
     const { amount, category, description, date } = req.body;
     // Idempotency Key validation
     // The client should send this key. If missing, we can generate one (but that defeats the purpose of client retries).
@@ -108,6 +110,9 @@ app.post('/expenses', (req, res) => {
         });
     });
 });
+
+app.use('/api', router);
+app.use('/', router);
 
 // Export the Express API
 module.exports = app;
