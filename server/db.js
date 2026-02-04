@@ -1,7 +1,16 @@
 const sqlite3 = require('sqlite3').verbose();
+const os = require('os');
 const path = require('path');
 
-const dbPath = path.resolve(__dirname, 'expenses.db');
+// Determine if running on Vercel (or just assume /tmp for non-local validity if needed, but safe to check env)
+// Vercel sets 'VERCEL' env var to '1'.
+const isVercel = process.env.VERCEL === '1';
+
+const dbPath = isVercel 
+    ? path.join('/tmp', 'expenses.db') 
+    : path.resolve(__dirname, 'expenses.db');
+
+console.log('Using database path:', dbPath);
 
 const db = new sqlite3.Database(dbPath, (err) => {
     if (err) {
